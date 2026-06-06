@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 20px;">
+    <h3 style="margin-top: 0; color: #333;">➕ Илова кардани маҳсулот</h3>
+    <form method="POST" enctype="multipart/form-data" id="productForm">
+        {% csrf_token %}
+        
+        <label style="font-weight: bold; font-size: 14px;">Номи маҳсулот:</label>
+        <input type="text" name="name" required style="width:100%; padding:10px; margin: 5px 0 15px 0; border:1px solid #ddd; border-radius:5px; box-sizing: border-box;">
+
+        <label style="font-weight: bold; font-size: 14px;">Категория:</label>
+        <select name="category" required style="width:100%; padding:10px; margin: 5px 0 15px 0; border:1px solid #ddd; border-radius:5px; background: #fafafa;">
+            {% for cat in categories %}
+                <option value="{{ cat.id }}">{{ cat.name }}</option>
+            {% endfor %}
+        </select>
+
+        <div style="margin-bottom: 12px;">
+            <label style="display: block; font-size: 14px; font-weight: bold; margin-bottom: 5px; color: #333;">Ҳолати маҳсулот:</label>
+            <select name="status" style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; background: white; font-size: 14px;">
+                <option value="new">🆕 Нав</option>
+                <option value="used">🛠️ Истифодашуда</option>
+            </select>
+        </div>
+
+        <label style="font-weight: bold; font-size: 14px;">Нарх (сомонӣ):</label>
+        <input type="number" step="0.01" name="price" required style="width:100%; padding:10px; margin: 5px 0 15px 0; border:1px solid #ddd; border-radius:5px; box-sizing: border-box;">
+
+        <label style="font-weight: bold; font-size: 14px;">Шаҳр / Ноҳия:</label>
+        <select name="location" required style="width:100%; padding:10px; margin: 5px 0 15px 0; border:1px solid #ddd; border-radius:5px; background: #fafafa;">
+            {% for code, name in districts %}
+                <option value="{{ code }}">{{ name }}</option>
+            {% endfor %}
+        </select>
+
+        <label style="font-weight: bold; font-size: 14px;">Рақами телефон (WhatsApp):</label>
+        <input type="text" name="phone" placeholder="+992XXXXXXXXX" required style="width:100%; padding:10px; margin: 5px 0 15px 0; border:1px solid #ddd; border-radius:5px; box-sizing: border-box;">
+
+        <label style="font-weight: bold; font-size: 14px;">Тавсифи маҳсулот:</label>
+        <textarea name="description" rows="4" required style="width:100%; padding:10px; margin: 5px 0 15px 0; border:1px solid #ddd; border-radius:5px; box-sizing: border-box; resize: vertical;"></textarea>
+
+        <div style="margin-bottom: 20px; font-family: 'Segoe UI', Roboto, sans-serif;">
+            <label style="font-weight: bold; font-size: 14px; display: block; margin-bottom: 10px; color: #333;">
+                📸 Илова кардани суратҳо (То 10 сурат)
+            </label>
+            
+            <input type="file" id="mainImageInput" name="images" accept="image/*" multiple style="display: none;" onchange="handleImageSelection(this)">
+
+            <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                <button type="button" onclick="openSource('gallery')" style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; background: #f0f0f0; border: 1px solid #ddd; color: #333; padding: 12px; border-radius: 10px; font-weight: 600; cursor: pointer; font-size: 13px;">
+                    <i class="fa-solid fa-images" style="color: #ff9900; font-size: 16px;"></i> 📁 Галерея
+                </button>
+                
+                <button type="button" onclick="openSource('camera')" style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; background: #fff4e5; border: 1px solid #ffcc80; color: #e67300; padding: 12px; border-radius: 10px; font-weight: 600; cursor: pointer; font-size: 13px;">
+                    <i class="fa-solid fa-camera" style="color: #ff6600; font-size: 16px;"></i> 📸 Камера
+                </button>
+            </div>
+
+            <div id="imagesPreviewContainer" style="display: flex; gap: 10px; flex-wrap: wrap; background: #fafafa; padding: 10px; border-radius: 10px; border: 1px dashed #ccc; min-height: 65px; align-items: center;">
+                <span id="placeholderText" style="color: #aaa; font-size: 12px; margin: 0 auto;">Суратҳо дар ин ҷо нишон дода мешаванд</span>
+            </div>
+        </div>
+               
+        <div style="margin-bottom: 20px; display: flex; align-items: center; gap: 10px; background: #f9f9f9; padding: 12px; border-radius: 8px; border: 1px solid #ddd;">
+            <input type="checkbox" id="has_delivery" name="has_delivery" value="True" style="width: 18px; height: 18px; cursor: pointer;">
+            <label for="has_delivery" style="font-size: 14px; color: #333; cursor: pointer; font-weight: bold;">
+                🚚 Оё расонида медиҳед? (Доставка дорам)
+            </label>
+        </div>
+
+        <button type="submit" style="width:100%; background:#ff9900; color:white; border:none; padding:12px; border-radius:5px; font-size:16px; font-weight:bold; cursor:pointer;">Эълонро гузоштан</button>
+    </form>
+</div>
+
+<script>
+function openSource(mode) {
+    const input = document.getElementById('mainImageInput');
+    if (mode === 'camera') {
+        input.setAttribute('capture', 'environment');
+    } else {
+        input.removeAttribute('capture');
+    }
+    input.click();
+}
+
+function handleImageSelection(input) {
+    const container = document.getElementById('imagesPreviewContainer');
+    const placeholder = document.getElementById('placeholderText');
+    
+    // Тоза кардани превюҳои кӯҳна
+    const previews = container.querySelectorAll('.img-preview-wrapper');
+    previews.forEach(p => p.remove());
+
+    if (input.files && input.files.length > 0) {
+        if (placeholder) placeholder.style.display = 'none';
+
+        const filesAmount = Math.min(input.files.length, 10);
+        if (input.files.length > 10) {
+            alert("Лимит: Танҳо то 10 сурат гузоштан мумкин аст!");
+        }
+
+        for (let i = 0; i < filesAmount; i++) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const imgWrapper = document.createElement('div');
+                imgWrapper.className = 'img-preview-wrapper';
+                imgWrapper.style.cssText = "width: 65px; height: 65px; border-radius: 8px; overflow: hidden; border: 1px solid #ddd; background: white; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05);";
+                
+                const img = document.createElement('img');
+                img.src = event.target.result;
+                img.style.cssText = "width: 100%; height: 100%; object-fit: cover;";
+                
+                imgWrapper.appendChild(img);
+                container.appendChild(imgWrapper);
+            }
+            reader.readAsDataURL(input.files[i]);
+        }
+    } else {
+        if (placeholder) placeholder.style.display = 'block';
+    }
+}
+</script>
+{% endblock %}

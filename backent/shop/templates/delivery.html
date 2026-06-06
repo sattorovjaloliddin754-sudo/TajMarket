@@ -1,0 +1,249 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="margin-bottom: 80px;">
+    <h4 style="margin: 15px 0 20px 0; color: #333; font-size: 18px; text-align: center;">
+        🚚 Ҳисобкунии худкори нархи расонидан дар Тоҷикистон
+    </h4>
+
+    <div style="background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); margin-bottom: 20px;">
+        <h5 style="margin: 0 0 15px 0; color: #ff9900; font-size: 16px; text-align: center;">🧮 Калкулятори Нархҳо</h5>
+        
+        <div style="margin-bottom: 15px;">
+            <label style="display: block; font-size: 13px; color: #555; margin-bottom: 5px; font-weight: bold;">📍 Аз кадом шаҳр/ноҳия (Фурӯшанда):</label>
+            <select id="from_city" onchange="calculateDelivery()" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; background: white; outline: none;">
+                <option value="dushanbe">Душанбе</option>
+                <option value="khujand">Хуҷанд</option>
+                <option value="bokhtar">Бохтар</option>
+                <option value="kulob">Кӯлоб</option>
+                <option value="khorog">Хоруғ</option>
+                <option value="vahdat">Ваҳдат</option>
+                <option value="hissar">Ҳисор</option>
+                <option value="tursunzoda">Турсунзода</option>
+                <option value="rogun">Роғун</option>
+                <option value="norak">Норак</option>
+                <option value="levakant">Левакант</option>
+                <option value="istravshan">Истаравшан</option>
+                <option value="isfara">Исфара</option>
+                <option value="konibodom">Конибодом</option>
+                <option value="panjakent">Панҷакент</option>
+                <option value="guliston">Гулистон</option>
+                <option value="buston">Бӯстон</option>
+                <option value="istiqlol">Истиқлол</option>
+                
+                <option value="temurmalik">Темурмалик</option>
+                <option value="dangara">Данғара</option>
+                <option value="vose">Восеъ</option>
+                <option value="yovon">Ёвон</option>
+                <option value="vakhsh">Вахш</option>
+                <option value="dusti">Дӯстӣ</option>
+                <option value="kushoniyon">Кӯшониён</option>
+                <option value="baljuvon">Балҷувон</option>
+                <option value="muminobod">Муъминобод</option>
+                <option value="panj">Панҷ</option>
+                <option value="farkhor">Фархор</option>
+                <option value="khovaling">Ховалинг</option>
+                <option value="sh_shohin">Шамсиддин Шоҳин</option>
+                <option value="jayhun">Ҷайҳун</option>
+                <option value="j_balkhi">Ҷалолиддини Балхӣ</option>
+                <option value="jomi">А. Ҷомӣ</option>
+                <option value="bahoriyon">Баҳориён</option>
+                <option value="rudaki">Рӯдакӣ</option>
+                <option value="varzob">Варзоб</option>
+                <option value="shahrinav">Шаҳринав</option>
+                <option value="fayzobod">Файзобод</option>
+                <option value="lakhsh">Лахш</option>
+                <option value="rasht">Рашт</option>
+                <option value="tojikobod">Тоҷикобод</option>
+                <option value="nurobod">Нуробод</option>
+                <option value="sangvor">Сангвор</option>
+                <option value="nosiri_khusrav">Носири Хусрав</option>
+                <option value="ayni">Айнӣ</option>
+                <option value="asht">Ашт</option>
+                <option value="b_gafurov">Бобоҷон Ғафуров</option>
+                <option value="devashtich">Деваштич</option>
+                <option value="zafarobod">Зафаробод</option>
+                <option value="k_mastchoh">Кӯҳистони Мастчоҳ</option>
+                <option value="mastchoh">Мастчоҳ</option>
+                <option value="spitamen">Спитамен</option>
+                <option value="j_rasulov">Ҷаббор Расулов</option>
+                <option value="darvoz">Дарвоз</option>
+                <option value="vanj">Ванҷ</option>
+                <option value="rushon">Рӯшон</option>
+                <option value="shugnon">Шугнон</option>
+                <option value="roshtqala">Роштқалъа</option>
+                <option value="ishkoshim">Ишкошим</option>
+                <option value="murgob">Мурғоб</option>
+            </select>
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <label style="display: block; font-size: 13px; color: #555; margin-bottom: 5px; font-weight: bold;">🎯 Ба кадом шаҳр/ноҳия (Харидор):</label>
+            <select id="to_city" onchange="calculateDelivery()" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; background: white; outline: none;">
+                <option value="dushanbe">Душанбе</option>
+                <option value="khujand">Хуҷанд</option>
+                <option value="bokhtar">Бохтар</option>
+                <option value="kulob">Кӯлоб</option>
+                <option value="khorog">Хоруғ</option>
+                <option value="vahdat">Ваҳдат</option>
+                <option value="hissar">Ҳисор</option>
+                <option value="tursunzoda">Турсунзода</option>
+                <option value="rogun">Роғун</option>
+                <option value="norak">Норак</option>
+                <option value="levakant">Левакант</option>
+                <option value="istravshan">Истаравшан</option>
+                <option value="isfara">Исфара</option>
+                <option value="konibodom">Конибодом</option>
+                <option value="panjakent">Панҷакент</option>
+                <option value="guliston">Гулистон</option>
+                <option value="buston">Бӯстон</option>
+                <option value="istiqlol">Истиқлол</option>
+                
+                <option value="temurmalik">Темурмалик</option>
+                <option value="dangara">Данғара</option>
+                <option value="vose">Восеъ</option>
+                <option value="yovon">Ёвон</option>
+                <option value="vakhsh">Вахш</option>
+                <option value="dusti">Дӯстӣ</option>
+                <option value="kushoniyon">Кӯшониён</option>
+                <option value="baljuvon">Балҷувон</option>
+                <option value="muminobod">Муъминобод</option>
+                <option value="panj">Панҷ</option>
+                <option value="farkhor">Фархор</option>
+                <option value="khovaling">Ховалинг</option>
+                <option value="sh_shohin">Шамсиддин Шоҳин</option>
+                <option value="jayhun">Ҷайҳун</option>
+                <option value="j_balkhi">Ҷалолиддини Балхӣ</option>
+                <option value="jomi">А. Ҷомӣ</option>
+                <option value="bahoriyon">Баҳориён</option>
+                <option value="rudaki">Рӯдакӣ</option>
+                <option value="varzob">Варзоб</option>
+                <option value="shahrinav">Шаҳринав</option>
+                <option value="fayzobod">Файзобод</option>
+                <option value="lakhsh">Лахш</option>
+                <option value="rasht">Рашт</option>
+                <option value="tojikobod">Тоҷикобод</option>
+                <option value="nurobod">Нуробод</option>
+                <option value="sangvor">Сангвор</option>
+                <option value="nosiri_khusrav">Носири Хусрав</option>
+                <option value="ayni">Айнӣ</option>
+                <option value="asht">Ашт</option>
+                <option value="b_gafurov">Бобоҷон Ғафуров</option>
+                <option value="devashtich">Деваштич</option>
+                <option value="zafarobod">Зафаробод</option>
+                <option value="k_mastchoh">Кӯҳистони Мастчоҳ</option>
+                <option value="mastchoh">Мастчоҳ</option>
+                <option value="spitamen">Спитамен</option>
+                <option value="j_rasulov">Ҷаббор Расулов</option>
+                <option value="darvoz">Дарвоз</option>
+                <option value="vanj">Ванҷ</option>
+                <option value="rushon">Рӯшон</option>
+                <option value="shugnon">Шугнон</option>
+                <option value="roshtqala">Роштқалъа</option>
+                <option value="ishkoshim">Ишкошим</option>
+                <option value="murgob">Мурғоб</option>
+            </select>
+        </div>
+
+        <div id="result_box" style="background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px dashed #ff9900; text-align: center;">
+            <p style="margin: 0 0 5px 0; font-size: 14px; color: #555;">Нархи расонидан:</p>
+            <h3 id="delivery_price" style="margin: 0 0 8px 0; color: #ff9900; font-size: 22px;">0 сомонӣ</h3>
+            <p id="delivery_time" style="margin: 0; font-size: 12px; color: #777; font-weight: bold;">🕒 Вақт: --</p>
+        </div>
+    </div>
+</div>
+
+<script>
+// Тақсимоти пинҳонӣ ба минтақаҳо барои ҳисоб кардани масофа
+const regions = {
+    // Хатлон (Кӯлоб, Бохтар ва ноҳияҳо)
+    'bokhtar': 'khatlon', 'kulob': 'khatlon', 'norak': 'khatlon', 'levakant': 'khatlon',
+    'temurmalik': 'khatlon', 'dangara': 'khatlon', 'vose': 'khatlon', 'yovon': 'khatlon',
+    'vakhsh': 'khatlon', 'dusti': 'khatlon', 'kushoniyon': 'khatlon', 'baljuvon': 'khatlon',
+    'muminobod': 'khatlon', 'panj': 'khatlon', 'farkhor': 'khatlon', 'khovaling': 'khatlon',
+    'sh_shohin': 'khatlon', 'jayhun': 'khatlon', 'j_balkhi': 'khatlon', 'jomi': 'khatlon',
+    'bahoriyon': 'khatlon', 'nosiri_khusrav': 'khatlon',
+    
+    // Суғд (Хуҷанд ва ноҳияҳо)
+    'khujand': 'sughd', 'istravshan': 'sughd', 'isfara': 'sughd', 'konibodom': 'sughd',
+    'panjakent': 'sughd', 'guliston': 'sughd', 'buston': 'sughd', 'istiqlol': 'sughd',
+    'ayni': 'sughd', 'asht': 'sughd', 'b_gafurov': 'sughd', 'devashtich': 'sughd',
+    'zafarobod': 'sughd', 'k_mastchoh': 'sughd', 'mastchoh': 'sughd', 'spitamen': 'sughd',
+    'j_rasulov': 'sughd',
+
+    // Душанбе ва НТМ
+    'dushanbe': 'ntm', 'vahdat': 'ntm', 'hissar': 'ntm', 'tursunzoda': 'ntm',
+    'rogun': 'ntm', 'rudaki': 'ntm', 'varzob': 'ntm', 'shahrinav': 'ntm',
+    'fayzobod': 'ntm', 'lakhsh': 'ntm', 'rasht': 'ntm', 'tojikobod': 'ntm',
+    'nurobod': 'ntm', 'sangvor': 'ntm',
+
+    // ВМКБ (Хоруғ ва ноҳияҳо)
+    'khorog': 'gbao', 'darvoz': 'gbao', 'vanj': 'gbao', 'rushon': 'gbao',
+    'shugnon': 'gbao', 'roshtqala': 'gbao', 'ishkoshim': 'gbao', 'murgob': 'gbao'
+};
+
+// Рӯйхати шаҳрҳои асосӣ барои муайян кардани тарифи "шаҳр ба шаҳр"
+const mainCities = ['dushanbe', 'khujand', 'bokhtar', 'kulob', 'khorog', 'istravshan', 'isfara', 'konibodom', 'panjakent', 'tursunzoda', 'vahdat'];
+
+function calculateDelivery() {
+    const fromCity = document.getElementById('from_city').value;
+    const toCity = document.getElementById('to_city').value;
+    
+    const priceElement = document.getElementById('delivery_price');
+    const timeElement = document.getElementById('delivery_time');
+
+    // 1. Даруни як шаҳр ё ноҳия (15 сомонӣ)
+    if (fromCity === toCity) {
+        priceElement.innerText = "15 сомонӣ";
+        timeElement.innerText = "🕒 Вақт: 1-3 соат (Дар дохили як ҷой)";
+        return;
+    }
+
+    const fromRegion = regions[fromCity];
+    const toRegion = regions[toCity];
+
+    let price = 25;
+    let time = "5-8 соат";
+
+    // 2. Мантиқи ҳисобкунии нархҳо
+    if (fromRegion === toRegion) {
+        // Дар дохили як вилоят ё минтақа (Масалан Кӯлоб ба Темурмалик ё Данғара)
+        // Санҷиши наздикӣ: Агар ягонтоаш ноҳияҳои дурдаст ба мисли Лахш ё Мурғоб бошанд
+        if (fromCity === 'murgob' || toCity === 'murgob' || fromCity === 'lakhsh' || toCity === 'lakhsh') {
+            price = 30; // Ноҳияи дур
+            time = "1 рӯз";
+        } else {
+            price = 20; // Қариб / Ноҳияи наздик
+            time = "2-4 соат";
+        }
+    } else {
+        // Байни минтақаҳои гуногун (Дур)
+        const isFromMainCity = mainCities.includes(fromCity);
+        const isToMainCity = mainCities.includes(toCity);
+
+        if (isFromMainCity && isToMainCity) {
+            // Аз як шаҳри асосӣ ба шаҳри асосии дигар (Масалан: Душанбе ба Хуҷанд ё Кӯлоб ба Бохтар)
+            if ((fromRegion === 'sughd' && toRegion === 'khatlon') || (fromRegion === 'khatlon' && toRegion === 'sughd') || fromRegion === 'gbao' || toRegion === 'gbao') {
+                price = 40; // Шаҳрҳои хеле дур (Суғд-Хатлон, ё Ба Помир)
+                time = "1 рӯз";
+            } else {
+                price = 35; // Шаҳрҳои дур (Масалан Душанбе-Кӯлоб ё Душанбе-Хуҷанд)
+                time = "5-7 соат";
+            }
+        } else {
+            // Аз ноҳия ба ноҳияи вилояти дигар (Масалан Темурмалик ба Исфара - Дур)
+            price = 30;
+            time = "1 рӯз";
+        }
+    }
+
+    // Намоиши натиҷа
+    priceElement.innerText = price + " сомонӣ";
+    timeElement.innerText = "🕒 Вақт: " + time;
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    calculateDelivery();
+});
+</script>
+{% endblock %}

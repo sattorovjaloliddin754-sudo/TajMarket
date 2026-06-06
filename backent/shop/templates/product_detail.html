@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<a href="/" style="text-decoration: none; color: #555; display: inline-flex; align-items: center; gap: 5px; margin-bottom: 15px; font-size: 14px;">
+    <i class="fa-solid fa-arrow-left"></i> Баргаштан ба саҳифаи асосӣ
+</a>
+
+<div style="background: white; border-radius: 10px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+    
+    {% if product.image %}
+        <div style="width: 100%; max-height: 300px; display: flex; align-items: center; justify-content: center; background: #fafafa; border-radius: 8px; overflow: hidden; margin-bottom: 15px;">
+            <img src="{{ product.image.url }}" style="max-width: 100%; max-height: 300px; object-fit: contain;">
+        </div>
+    {% endif %}
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+        <h2 style="font-size: 20px; color: #333; margin: 0;">{{ product.title }}</h2>
+        
+        <button type="button" style="background: #fff0f3; border: none; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 5px rgba(255,51,102,0.1);">
+            <i class="fa-regular fa-heart" style="color: #ff3366; font-size: 20px;"></i>
+        </button>
+    </div>
+    <p style="font-size: 22px; color: #ff9900; font-weight: bold; margin: 0 0 15px 0;">{{ product.price }} сомонӣ</p>
+
+    <div style="background: #f9f9f9; padding: 10px; border-radius: 6px; font-size: 13px; color: #555; display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px;">
+        <p>📍 Шаҳр/Ноҳия: {{ product.get_location_display }}</p>
+        <p>🕒 Вақти гузоштани эълон: {{ product.created_at|date:"d.m.Y H:i" }}</p>
+        
+        <p>📦 Ҳолати маҳсулот: 
+            {% if product.status == 'used' %}
+                <span style="color: #e67e22; font-weight: bold;">Истифодашуда 🛠️</span>
+            {% else %}
+                <span style="color: #2ecc71; font-weight: bold;">Нав 🆕</span>
+            {% endif %}
+        </p>
+        
+        <p>🚚 Дастрасӣ (Доставка): 
+            {% if product.has_delivery %}
+                <span style="color: #2ecc71; font-weight: bold;">Ҳаст ✅</span>
+            {% else %}
+                <span style="color: #e74c3c; font-weight: bold;">Нест ❌</span>
+            {% endif %}
+        </p>
+        
+        <p>📁 Категория: 💻 {{ product.category.name }}</p>
+    </div>
+
+    <h3 style="font-size: 16px; color: #333; margin: 0 0 8px 0; border-bottom: 2px solid #ff9900; display: inline-block; padding-bottom: 2px;">Тавсифи эълон</h3>
+    <p style="font-size: 14px; color: #444; line-height: 1.6; white-space: pre-line; margin: 0 0 25px 0;">
+        {{ product.description|default:"Тавсиф илова нашудааст." }}
+    </p>
+
+    <a href="https://wa.me/{{ product.phone }}?text=Салом!%20Ман%20дар%20бораи%20эълони%20«{{ product.title }}»%20аз%20TajMarket%20савол%20доштам." 
+   target="_blank" 
+   style="text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px; background: #25D366; color: white; padding: 12px; border-radius: 10px; font-weight: bold; margin-bottom: 10px; box-shadow: 0 4px 10px rgba(37,211,102,0.2);">
+    <i class="fa-brands fa-whatsapp" style="font-size: 18px;"></i>
+    Навиштан ба WhatsApp
+</a>
+  <a href="tel:{{ product.phone }}" 
+   style="text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px; background: #ff9900; color: white; padding: 12px; border-radius: 10px; font-weight: bold; box-shadow: 0 4px 10px rgba(255,153,0,0.2);">
+    <i class="fa-solid fa-phone" style="font-size: 16px;"></i>
+    Занг задан: {{ product.phone }}
+</a>
+    </div>
+
+</div>
+{% endblock %}
